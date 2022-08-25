@@ -228,7 +228,22 @@ return [
         [
             'text' => '商品一覧',
             'url'  => 'items',
-            'icon' => 'fas fa-gamepad',
+            'icon' => 'fas fa fa-list-alt',
+        ],
+        [
+            'text' => 'メーカー・種別登録',
+            'url'  => 'store',
+            'icon' => 'fas fa-fw fa fa-plus-circle',
+        ],
+        [
+            'text' => 'カレンダー',
+            'url'  => 'calendar',
+            'icon' => 'far fa-fw fa-calendar',
+        ],
+        [
+            'text' => 'ユーザー一覧',
+            'url'  => 'users',
+            'icon' => 'fas fa-fw fa-user',
         ],
 
         // AdminLTEデフォルト
