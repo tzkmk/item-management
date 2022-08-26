@@ -43,11 +43,11 @@
                                 <td data-id="<?php echo $day; ?>" class="calendar-task">
                                     <ul>
                                         @foreach($items as $item)
-                                            <a data-bs-toggle="modal" data-bs-target="#js-modal-{{ $item['id'] }}">
-                                                    <?php $item_day = date('j', strtotime($item['create_at']));
-                                                        ${'item_'.$item['id']} = $item;
+                                            <a data-bs-toggle="modal" data-bs-target="#js-modal-{{ $item->id }}">
+                                                    <?php $item_day = date('j', strtotime($item->release_at));
+                                                        ${'item_'.$item->id} = $item;
                                                         if(isset($item) && $day == $item_day){
-                                                            echo "<li>".htmlspecialchars($item['name'])."</li>"; 
+                                                            echo "<li>".htmlspecialchars($item->name)."</li>"; 
                                                         }
                                                     ;?>
                                             </a>

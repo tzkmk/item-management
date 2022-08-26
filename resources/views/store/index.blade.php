@@ -12,22 +12,6 @@
 
         <div class="row justify-content-center">
             <p>メーカー一覧</p>
-            <table class="table table-bordered text-center">
-                <thead class="thead-light">
-                        <tr>
-                            <td>name</td>
-                            <td>name</td>
-                            <td>name</td>
-                        </tr>
-                    @foreach($makers as $maker)
-                        <tr>
-                            <td>{{$maker}}</td>
-                            <td>{{$maker}}</td>
-                            <td>{{$maker}}</td>
-                        </tr>
-                    @endforeach
-                </thead>
-            </table>
             <div>
                 <form action="{{ route('maker-add') }}" method="post">
                     @csrf 
@@ -35,27 +19,24 @@
                     <button type="submit">追加</button>
                 </form>
             </div>
-        </div>
-    
-        <!-- 種別一覧 -->
-        <div class="row justify-content-center">
-            <p>種別一覧</p>
             <table class="table table-bordered text-center">
                 <thead class="thead-light">
-                        <tr>
-                            <td>name</td>
-                            <td>name</td>
-                            <td>name</td>
-                        </tr>
-                    @foreach($types as $type)
-                        <tr>
-                            <td>{{$type}}</td>
-                            <td>{{$type}}</td>
-                            <td>{{$type}}</td>
-                        </tr>
+                    @foreach($makers as $maker)
+                        @if($maker->id%2 !== 0)
+                            <tr>
+                                <td>{{$maker->name}}</td>
+                        @else
+                                <td>{{$maker->name}}</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </thead>
             </table>
+        </div>
+
+        <!-- 種別一覧 -->
+        <div class="row justify-content-center">
+            <p>種別一覧</p>
             <div>
                 <form action="{{ route('type-add') }}" method="post">
                     @csrf 
@@ -63,6 +44,19 @@
                     <button type="submit">追加</button>
                 </form>
             </div>
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
+                    @foreach($types as $type)
+                        @if($type->id%2 !== 0)
+                            <tr>
+                                <td>{{$type->name}}</td>
+                        @else
+                                <td>{{$type->name}}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </thead>
+            </table>
         </div>
     </div>
 @stop

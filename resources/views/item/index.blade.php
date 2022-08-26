@@ -58,8 +58,11 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>名前</th>
+                                    <th>メーカー</th>
                                     <th>種別</th>
                                     <th>詳細</th>
+                                    <th>発売日</th>
+                                    <th>更新日</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,8 +70,11 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->type }}</td>
+                                        <td>{{ $item->maker_name }}</td>
+                                        <td>{{ $item->type_name }}</td>
                                         <td>{{ $item->detail }}</td>
+                                        <td>{{ $item->release_at }}</td>
+                                        <td>{{ date('Y-m-d', strtotime($item->updated_at)) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

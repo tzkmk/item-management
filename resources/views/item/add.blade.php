@@ -29,13 +29,33 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="number" class="form-control" id="type" name="type" placeholder="1, 2, 3, ...">
+                            <label for="maker">メーカー</label>
+                            <select class="form-control" name="maker">
+                                <option value="">メーカーを選択</option>
+                                @foreach($makers as $maker)
+                                <option value="{{ $maker->id }}">{{ $maker->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
+                            <label for="type">種別</label>
+                            <select class="form-control" name="type">
+                                <option value="">種別を選択</option>
+                                @foreach($types as $type)
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
+                            </select>
+                         </div>
+
+                        <div class="form-group">
                             <label for="detail">詳細</label>
-                            <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
+                            <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="release_at">発売日</label>
+                            <input type="date" class="form-control" id="release_at" name="release_at">
                         </div>
                     </div>
 

@@ -25,13 +25,6 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
-        // ログインチェック：ログインしていなかったらログイン画面へ遷移
-        // if(!Auth::user()){
-        //     return redirect('/login-form');
-        // };
-
-        // 種別を配列に格納
-        $types = Type::where('status', 'active')->get();
 
         // 検索キーワード取得
         $keyword = mb_convert_kana($request->keyword, 'sa'); 
@@ -42,18 +35,10 @@ class ItemController extends Controller
         $query = Item::query();
         if($keyword){
             foreach($keywords as $value) {
-                $query->where(function($query) use ($value, $types) {
+                $query->where(function($query) use ($value) {
                     $query->orwhere('id',  'LIKE', $value)
                         ->orWhere('name','LIKE',"%{$value}%")
                         ->orWhere('detail','LIKE',"%{$value}%");
-                    // 種別のあいまい検索
-                    $escape_value = preg_quote($value, '/');
-                    $search_types = preg_grep("#$escape_value#", $types);
-                    if($search_types){
-                        foreach($search_types as $key => $type){
-                            $query->orWhere('type','LIKE',"%{$key}%");
-                        }
-                    }
                 });
             }
         }
@@ -68,13 +53,22 @@ class ItemController extends Controller
         
         // ユーザー名を結合して、商品一覧取得
         $users = User::select('id AS user_id', 'name AS user_name');
-        $items = $query->where('status', '1')->orderby($sort , $order)
+        $makers = Maker::select('id AS maker_id', 'name AS maker_name');
+        $types = Type::select('id AS type_id', 'name AS type_name');
+        $items = $query->where('status', 'active')->orderby($sort , $order)
                         ->leftjoinSub($users, 'users', function ($join) {
                             $join->on('items.user_id', '=', 'users.user_id');
-                            })->paginate(8);
+                            })
+                        ->leftjoinSub($makers, 'makers', function ($join) {
+                            $join->on('items.maker_id', '=', 'makers.maker_id');
+                            })
+                        ->leftjoinSub($types, 'types', function ($join) {
+                            $join->on('items.type_id', '=', 'types.type_id');
+                            })
+                        ->paginate(8);
 
         // 画面表示
-        return view('item.index', compact('items', 'keyword', 'types', 'order', 'sort'));
+        return view('item.index', compact('items', 'keyword', 'order', 'sort'));
     }
 
     /**
@@ -93,13 +87,19 @@ class ItemController extends Controller
             Item::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
-                'type' => $request->type,
+                'maker_id' => $request->maker,
+                'type_id' => $request->type,
                 'detail' => $request->detail,
+                'release_at' => $request->release_at,
+
             ]);
 
             return redirect('/items');
         }
 
-        return view('item.add');
+        $makers = Maker::where('status', 'active')->get();
+        $types = Type::where('status', 'active')->get();
+
+        return view('item.add', compact('makers', 'types'));
     }
 }

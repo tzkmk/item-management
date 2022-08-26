@@ -21,9 +21,8 @@ class StoreController extends Controller
 
     public function index(Request $request){
 
-        $makers = Maker::where('status', 'active')->get('name');
-
-        $types = Type::where('status', 'active')->get('name');
+        $makers = Maker::where('status', 'active')->get();
+        $types = Type::where('status', 'active')->get();
 
 
         // 画面表示
@@ -31,17 +30,17 @@ class StoreController extends Controller
     }
 
     public function makerAdd(Request $request){
-        // Maker::create([
-        //     'name'=>$request->maker,
-        // ]);
+        Maker::create([
+            'name'=>$request->maker,
+        ]);
         // 画面表示
         return redirect()->route('store');
     }
 
     public function typeAdd(Request $request){
-        // Type::create([
-        //     'name'=>$request->type,
-        // ]);
+        Type::create([
+            'name'=>$request->type,
+        ]);
         // 画面表示
         return redirect()->route('store');
     }
