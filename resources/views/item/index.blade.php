@@ -63,6 +63,7 @@
                                     <th>詳細</th>
                                     <th>発売日</th>
                                     <th>更新日</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,12 @@
                                         <td>{{ $item->detail }}</td>
                                         <td>{{ $item->release_at }}</td>
                                         <td>{{ date('Y-m-d', strtotime($item->updated_at)) }}</td>
+                                        <td>
+                                            <form action="{{ route('edit', ['id' => $item->id]) }}" method="get">
+                                                @csrf
+                                                <button class="btn btn-sm btn-outline-danger" type="submit">編集</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

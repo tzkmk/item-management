@@ -13,6 +13,7 @@
             <input type="month" name="month" onchange="inputChange()" value="{{ $month }}">
             <input type="submit" id="submit" class="d-none" >
         </form>
+
         <!-- カレンダー表示 -->
         <div class="calendar-table">
             <table class="table table-bordered">
@@ -55,7 +56,7 @@
                                     </ul>
                                     
                                 </td>
-                            @endforeach;
+                            @endforeach
                         </tr>
                     @endforeach
                 @endif

@@ -15,20 +15,23 @@
                     <th>ID</th>
                     <th>名前</th>
                     <th>メールアドレス</th>
-                    <!-- <th>権限</th> -->
+                    <th>権限</th>
                     <th>更新日</th>
                 </tr>
-                @foreach($users as $u)
+                @foreach($users as $user)
                     <tr>
                         
-                        <td>{{$u->id}}</td>
-                        <td>{{$u->name}}</td>
-                        <td>{{$u->email}}</td>
-                        <!-- <td>@if($u->admine_id == 1) 管理者 @else - @endif</td> -->
-                        <!-- <td>{{$u->updated_at}}</td> -->
-                        <td>{{ $u->updated_at->format('Y/m/d') }}</td>
-
-                        <!-- <td><a href="/user/edit/{{$u->id}}"> 編集 </a></td> -->
+                        <td>{{$user->id}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>@if($user->admin_id === 1) 管理者 @else - @endif</td>
+                        <td>{{ date('Y-m-d', strtotime($user->updated_at)) }}</td>
+                        <td>                                        
+                            <form action="{{ route('user-edit', ['id' => $user->id]) }}" method="get">
+                                @csrf
+                                <button class="btn btn-sm btn-outline-danger" type="submit">編集</button>
+                                </form>
+                        </td>
                     </tr>
                 @endforeach
             </thead>

@@ -94,12 +94,54 @@ class ItemController extends Controller
 
             ]);
 
-            return redirect('/items');
+            return redirect()->route('item-home');
         }
 
         $makers = Maker::where('status', 'active')->get();
         $types = Type::where('status', 'active')->get();
 
         return view('item.add', compact('makers', 'types'));
+    }
+
+    /**
+     * 商品編集画面
+     */
+    public function edit($id)
+    {
+        $item = Item::where('status', 'active')->where('id', $id)->first();
+        $makers = Maker::where('status', 'active')->get();
+        $types = Type::where('status', 'active')->get();
+
+        return view('item.edit', compact('item', 'makers', 'types'));
+    }
+
+    /**
+     * 商品更新
+     */
+    public function update(Request $request, $id)
+    {
+        $user = \Auth::user();
+        $validated = $request->validate([
+            'name' => 'required',
+            'detail' => 'max:250',
+        ]);
+        Item::where('id', $id)->update([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'maker_id' => $request->maker,
+            'type_id' => $request->type,
+            'detail' => $request->detail,
+            'release_at' => $request->release_at,
+        ]);
+
+        return redirect()->route('item-home');
+    }
+    /**
+     * 商品削除
+     */
+    public function delete(Request $request, $id) 
+    {
+        Item::where('id', $id)->update(['status' => 'null']);
+        return redirect()->route('item-home');
     }
 }
