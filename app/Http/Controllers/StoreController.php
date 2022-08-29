@@ -21,8 +21,8 @@ class StoreController extends Controller
 
     public function index(Request $request){
 
-        $makers = Maker::where('status', 'active')->get();
-        $types = Type::where('status', 'active')->get();
+        $makers = Maker::where('status', 'active')->orderby('name')->get();
+        $types = Type::where('status', 'active')->orderby('name')->get();
 
 
         // 画面表示

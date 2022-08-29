@@ -25,6 +25,32 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
+        // 一覧表示項目選択
+        $lists = [
+            'id' => ['id', 'ID', 'check'],
+            'name' => ['name', '商品名', 'check'],
+            'maker_name' => ['maker_name', 'メーカー', 'check'],
+            'type_name' => ['type_name', '種別', 'check'],
+            'detail' => ['detail', '詳細', 'check'],
+            'updated_at' => ['updated_at', '更新日', 'check'],
+            'release_at' => ['release_at', '発売日', 'check'],
+        ];
+        if($request->list_items){
+            foreach($lists as &$list){
+            $list[2] = 'uncheck';
+            }
+            foreach($request->list_items as $list_item){
+                $lists[$list_item][2] = 'check';
+            }
+        }
+
+        // 並べ替え
+        $sort = 'id';
+        $order = 'asc';
+        if($request->sort){
+            $sort = $request->sort;
+            $order = $request->order;
+        }
 
         // 検索キーワード取得
         $keyword = mb_convert_kana($request->keyword, 'sa'); 
@@ -42,6 +68,7 @@ class ItemController extends Controller
                 });
             }
         }
+
         // メーカー・種別絞り込み
         $maker_id = '';
         if($request->maker){
@@ -52,15 +79,6 @@ class ItemController extends Controller
         if($request->type){
             $type_id = $request->type;
             $query->where('items.type_id', $type_id);
-        }
-
-
-        // 並べ替え
-        $sort = 'id';
-        $order = 'asc';
-        if($request->sort){
-            $sort = $request->sort;
-            $order = $request->order;
         }
         
         // ユーザー名を結合して、商品一覧取得
@@ -80,11 +98,11 @@ class ItemController extends Controller
                         ->orderby($sort , $order)
                         ->paginate(8);
 
-        $makers = Maker::where('status', 'active')->get();
-        $types = Type::where('status', 'active')->get();
+        $makers = Maker::where('status', 'active')->orderby('name')->get();
+        $types = Type::where('status', 'active')->orderby('name')->get();
 
         // 画面表示
-        return view('item.index', compact('items', 'keyword', 'order', 'sort', 'makers', 'types', 'maker_id', 'type_id'));
+        return view('item.index', compact('items', 'keyword', 'order', 'sort', 'makers', 'types', 'maker_id', 'type_id', 'lists'));
     }
 
     /**
@@ -112,9 +130,10 @@ class ItemController extends Controller
 
             return redirect()->route('item-home');
         }
+        
 
-        $makers = Maker::where('status', 'active')->get();
-        $types = Type::where('status', 'active')->get();
+        $makers = Maker::where('status', 'active')->orderby('name')->get();
+        $types = Type::where('status', 'active')->orderby('name')->get();
 
         return view('item.add', compact('makers', 'types'));
     }
@@ -125,8 +144,8 @@ class ItemController extends Controller
     public function edit($id)
     {
         $item = Item::where('status', 'active')->where('id', $id)->first();
-        $makers = Maker::where('status', 'active')->get();
-        $types = Type::where('status', 'active')->get();
+        $makers = Maker::where('status', 'active')->orderby('name')->get();
+        $types = Type::where('status', 'active')->orderby('name')->get();
 
         return view('item.edit', compact('item', 'makers', 'types'));
     }
