@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'ユーザー編集')
+@section('title', 'アカウント情報')
 
 @section('content_header')
-    <h1>ユーザー編集</h1>
+    <h1>アカウント情報</h1>
 @stop
 
 @section('content')
@@ -21,7 +21,7 @@
 
             <div class="card card-primary">
 
-                <form method="POST" action="{{ route('user-update', ['id' => $user->id]) }}">
+                <form method="POST" action="{{ route('account-update', ['id' => $user->id]) }}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -29,14 +29,13 @@
                             <input type="text" class="form-control" id="name" name="name" placeholder="名前" required value="{{ $user->name }}">
                         </div>
                         <div class="form-group">
-                            <label for="name">メールアドレス</label>
+                            <label for="email">メールアドレス</label>
                             <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required autocomplete="email">
                         </div>
+
                         <div class="form-group">
-                            <input id="admin-id-1" type="radio" name="admin_id" value="1" {{ $user->admin_id === 1? 'checked' : '' }}>
-                            <label for="admin-id-1">管理者</label>
-                            <input id="admin-id-0" type="radio" name="admin_id" value="0" {{ $user->admin_id === 0? 'checked' : '' }}>
-                            <label for="admin-id-0">一般</label>
+                            <label for="password">パスワード</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを変更する場合は、入力してください">
                         </div>
                     </div>
                     <div class="card-footer">
@@ -46,7 +45,7 @@
                 </form>
 
                 <!-- 削除ボタン -->
-                <form method="POST"  action="{{ route('user-delete', ['id' => $user->id]) }}" >
+                <form method="POST"  action="{{ route('account-delete', ['id' => $user->id]) }}" >
                     @csrf
                     <button type="submit" class="btn btn-danger" >削除</button>
                 </form>

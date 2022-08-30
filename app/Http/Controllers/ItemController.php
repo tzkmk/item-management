@@ -25,6 +25,8 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
+        $user = User::where('id', Auth::id())->first();
+
         // 一覧表示項目選択
         $lists = [
             'id' => ['id', 'ID', 'check'],
@@ -61,11 +63,12 @@ class ItemController extends Controller
         $query = Item::query();
         if($keyword){
             foreach($keywords as $value) {
-                $query->where(function($query) use ($value) {
-                    $query->orwhere('id',  'LIKE', $value)
-                        ->orWhere('name','LIKE',"%{$value}%")
-                        ->orWhere('detail','LIKE',"%{$value}%");
-                });
+                $query->where('status', 'active')
+                        ->where(function($query) use ($value) {
+                            $query->orwhere('id',  'LIKE', $value)
+                                ->orWhere('name','LIKE',"%{$value}%")
+                                ->orWhere('detail','LIKE',"%{$value}%");
+                        });
             }
         }
 
@@ -85,8 +88,8 @@ class ItemController extends Controller
         $users = User::select('id AS user_id', 'name AS user_name');
         $makers = Maker::select('id AS maker_id', 'name AS maker_name');
         $types = Type::select('id AS type_id', 'name AS type_name');
-        $items = $query->where('status', 'active')
-                        ->leftjoinSub($users, 'users', function ($join) {
+        $count_item = $query->count();
+        $items = $query->leftjoinSub($users, 'users', function ($join) {
                             $join->on('items.user_id', '=', 'users.user_id');
                             })
                         ->leftjoinSub($makers, 'makers', function ($join) {
@@ -98,45 +101,46 @@ class ItemController extends Controller
                         ->orderby($sort , $order)
                         ->paginate(8);
 
+        $all_item = Item::where('status', 'active')->count();
         $makers = Maker::where('status', 'active')->orderby('name')->get();
         $types = Type::where('status', 'active')->orderby('name')->get();
 
         // 画面表示
-        return view('item.index', compact('items', 'keyword', 'order', 'sort', 'makers', 'types', 'maker_id', 'type_id', 'lists'));
+        return view('item.index', compact('items', 'all_item','count_item','keyword', 'order', 'sort', 'makers', 'types', 'maker_id', 'type_id', 'lists','user'));
     }
 
-    /**
-     * 商品登録
-     */
-    public function add(Request $request)
-    {
-        // POSTリクエストのとき
-        if ($request->isMethod('post')) {
-            // バリデーション
-            $this->validate($request, [
-                'name' => 'required|max:100',
-            ]);
+    // /**
+    //  * 商品登録
+    //  */
+    // public function add(Request $request)
+    // {
+    //     // POSTリクエストのとき
+    //     if ($request->isMethod('post')) {
+    //         // バリデーション
+    //         $this->validate($request, [
+    //             'name' => 'required|max:100',
+    //         ]);
 
-            // 商品登録
-            Item::create([
-                'user_id' => Auth::user()->id,
-                'name' => $request->name,
-                'maker_id' => $request->maker,
-                'type_id' => $request->type,
-                'detail' => $request->detail,
-                'release_at' => $request->release_at,
+    //         // 商品登録
+    //         Item::create([
+    //             'user_id' => Auth::user()->id,
+    //             'name' => $request->name,
+    //             'maker_id' => $request->maker,
+    //             'type_id' => $request->type,
+    //             'detail' => $request->detail,
+    //             'release_at' => $request->release_at,
 
-            ]);
+    //         ]);
 
-            return redirect()->route('item-home');
-        }
+    //         return redirect()->route('item-home');
+    //     }
         
 
-        $makers = Maker::where('status', 'active')->orderby('name')->get();
-        $types = Type::where('status', 'active')->orderby('name')->get();
+    //     $makers = Maker::where('status', 'active')->orderby('name')->get();
+    //     $types = Type::where('status', 'active')->orderby('name')->get();
 
-        return view('item.add', compact('makers', 'types'));
-    }
+    //     return view('item.add', compact('makers', 'types'));
+    // }
 
     /**
      * 商品編集画面

@@ -23,15 +23,26 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::prefix('items')->group(function () {
     Route::get('/', [App\Http\Controllers\ItemController::class, 'index'])->name('item-home');
-    Route::get('/add', [App\Http\Controllers\ItemController::class, 'add']);
-    Route::post('/add', [App\Http\Controllers\ItemController::class, 'add']);
-    Route::get('/edit/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edit');
+    // Route::get('/add', [App\Http\Controllers\ItemController::class, 'add'])->middleware('AdminMiddleware');
+    // Route::post('/add', [App\Http\Controllers\ItemController::class, 'add']);
+    Route::get('/edit/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edit')->middleware('AdminMiddleware');
     Route::post('/update/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('update');
     Route::post('/delete/{id}', [App\Http\Controllers\ItemController::class, 'delete'])->name('delete');
 });
 
+Route::prefix('calendar')->group(function () {
+    Route::get('/', [App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
+});
+
+Route::prefix('account')->group(function () {
+    Route::get('/', [App\Http\Controllers\AccountController::class, 'index'])->name('account');
+    Route::post('/update/{id}', [App\Http\Controllers\AccountController::class, 'update'])->name('account-update');
+    Route::post('/delete/{id}', [App\Http\Controllers\AccountController::class, 'delete'])->name('account-delete');
+});
+
 Route::prefix('store')->group(function () {
-    Route::get('/', [App\Http\Controllers\StoreController::class, 'index'])->name('store');
+    Route::get('/', [App\Http\Controllers\StoreController::class, 'index'])->name('store')->middleware('AdminMiddleware');
+    Route::post('/', [App\Http\Controllers\StoreController::class, 'index']);
     Route::post('/maker-add', [App\Http\Controllers\StoreController::class, 'makerAdd'])->name('maker-add');
     Route::post('/maker-update/{id}', [App\Http\Controllers\StoreController::class, 'makerUpdate'])->name('maker-update');
     Route::post('/maker-delete/{id}', [App\Http\Controllers\StoreController::class, 'makerDelete'])->name('maker-delete');
@@ -40,13 +51,8 @@ Route::prefix('store')->group(function () {
     Route::post('/type-delete/{id}', [App\Http\Controllers\StoreController::class, 'typeDelete'])->name('type-delete');
 });
 
-Route::prefix('calendar')->group(function () {
-    Route::get('/', [App\Http\Controllers\CalendarController::class, 'index'])->name('calendar');
-});
-
 Route::prefix('users')->group(function () {
-    Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users');
-    Route::get('/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user-edit');
-    Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user-update');
-    Route::post('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('user-delete');
+    Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users')->middleware('AdminMiddleware');
+    Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin-update');
+    Route::post('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('admin-delete');
 });

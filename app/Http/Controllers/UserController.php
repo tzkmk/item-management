@@ -28,39 +28,62 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー編集画面
-     */
-    public function edit($id)
-    {
-        $user = User::where('id', $id)->first();
-
-        return view('user.edit', compact('user'));
-    }
-
-    /**
-     * ユーザー更新
+     * 権限付与
      */
     public function update(Request $request, $id)
     {
-        $user = \Auth::user();
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ]);
         User::where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'admin_id' => (int)$request->admin_id,
+            'admin_id' => 1,
         ]);
-
         return redirect()->route('users');
     }
+
     /**
-     * ユーザー削除
+     * 権限削除
      */
     public function delete($id) 
     {
-        User::where('id', $id)->delete();
+        User::where('id', $id)->update([
+            'admin_id' => 0,
+        ]);
         return redirect()->route('users');
     }
+
+    // /**
+    //  * ユーザー編集画面
+    //  */
+    // public function edit($id)
+    // {
+    //     $user = User::where('id', $id)->first();
+
+    //     return view('user.edit', compact('user'));
+    // }
+
+
+//     /**
+//      * ユーザー更新
+//      */
+//     public function update(Request $request, $id)
+//     {
+//         $user = \Auth::user();
+//         $validated = $request->validate([
+//             'name' => ['required', 'string', 'max:255'],
+//             'email' => ['required', 'string', 'email', 'max:255'],
+//         ]);
+//         User::where('id', $id)->update([
+//             'name' => $request->name,
+//             'email' => $request->email,
+//             'admin_id' => (int)$request->admin_id,
+//         ]);
+
+//         return redirect()->route('users');
+//     }
+//     /**
+//      * ユーザー削除
+//      */
+//     public function delete($id) 
+//     {
+//         User::where('id', $id)->delete();
+//         return redirect()->route('users');
+//     }
 }
