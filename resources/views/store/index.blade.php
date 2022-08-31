@@ -4,13 +4,16 @@
 
 @section('content_header')
     <h1>商品登録</h1>
+
 @stop
 
 @section('content')
     <div class="row d-flex justify-content-around">
+
         <!-- 商品登録 -->
         <div class="col-md-6">
-            @if ($errors->any())
+
+        @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
                        @foreach ($errors->all() as $error)
@@ -19,44 +22,43 @@
                     </ul>
                 </div>
             @endif
-
             <div class="card card-primary">
                 <form method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">名前</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="名前">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="名前" value="{{ old('name') }}">
                         </div>
 
                         <div class="form-group">
                             <label for="maker">メーカー</label>
-                            <select class="form-control" name="maker">
+                            <select class="form-control" id="maker" name="maker_id">
                                 <option value="">メーカーを選択</option>
                                 @foreach($makers as $maker)
-                                <option value="{{ $maker->id }}">{{ $maker->name }}</option>
+                                <option value="{{ $maker->id }}" {{ (int)old('maker_id') === $maker->id? 'selected': '' }}>{{ $maker->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="type">種別</label>
-                            <select class="form-control" name="type">
+                            <select class="form-control" id="type" name="type_id">
                                 <option value="">種別を選択</option>
                                 @foreach($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                <option value="{{ $type->id }}" {{ (int)old('type_id') === $type->id? 'selected': '' }}>{{ $type->name }}</option>
                                 @endforeach
                             </select>
                          </div>
 
                         <div class="form-group">
                             <label for="detail">詳細</label>
-                            <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明"></textarea>
+                            <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明" value="{{ old('detail') }}"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="release_at">発売日</label>
-                            <input type="date" class="form-control" id="release_at" name="release_at">
+                            <input type="date" class="form-control" id="release_at" name="release_at" value="{{ old('release_at') }}">
                         </div>
                     </div>
 
@@ -68,16 +70,26 @@
         </div>
 
         <div class="col-md-6 d-flex">
+            
             <!-- メーカー一覧 -->
             <div class="d-block col-6">
                 <h4>メーカー一覧</h4>
                 <div>
                     <form action="{{ route('maker-add') }}" method="post">
                         @csrf 
-                        <input name="maker" type="text" placeholder="メーカー名を入力">
+                        <input name="maker" type="text" placeholder="メーカーを入力" value="{{ old('maker') }}">
                         <button type="submit">追加</button>
                     </form>
                 </div>
+                @if ($errors->maker->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                        @foreach ($errors->maker->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @foreach($makers as $maker)
                 <ul class="mb-0">
                     <li><a class="modal_open link" data-bs-toggle="modal" data-bs-target="#maker-modal-{{ $maker->id }}" href="#">{{$maker->name}}</a></li>
@@ -119,10 +131,19 @@
                 <div>
                     <form action="{{ route('type-add') }}" method="post">
                         @csrf 
-                        <input name="type" type="text" placeholder="種別を入力">
+                        <input name="type" type="text" placeholder="種別を入力" value="{{ old('type') }}">
                         <button type="submit">追加</button>
                     </form>
                 </div>
+                @if ($errors->type->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                        @foreach ($errors->type->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @foreach($types as $type)
                 <ul class="mb-0">
                     <li><a class="modal_open link" data-bs-toggle="modal" data-bs-target="#type-modal-{{ $type->id }}" href="#">{{$type->name}}</a></li>

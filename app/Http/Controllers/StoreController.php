@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Maker;
 use App\Models\Type;
 use App\Models\Item;
@@ -27,14 +29,22 @@ class StoreController extends Controller
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
+                'maker_id' => 'required',
+                'detail' => 'max:250',
+            ],
+            [
+                'name.required' => '商品名を入力してください',
+                'name.max' => '商品名を100文字以内で入力してください',
+                'maker_id.required' => 'メーカーを選択してください',
+                'detail.max' => '詳細を250文字以内で入力してください',
             ]);
 
             // 商品登録
             Item::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
-                'maker_id' => $request->maker,
-                'type_id' => $request->type,
+                'maker_id' => $request->maker_id,
+                'type_id' => $request->type_id,
                 'detail' => $request->detail,
                 'release_at' => $request->release_at,
             ]);
@@ -54,12 +64,30 @@ class StoreController extends Controller
      * メーカー登録
      */
 
-    public function makerAdd(Request $request){
+    public function makerAdd(Request $request)
+    {
+        if(Maker::where('status','null')->where('name', $request->maker)->first()){
+            $id = Maker::where('status','null')->where('name', $request->maker)->first();
+            Maker::where('id', $id->id)->update([
+                'status' => 'active',
+            ]);
+            return redirect()->route('store');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100|unique:makers,name',
+        ],
+        [
+            'name.required' => '入力内容を確認してください',
+            'name.max' => '100文字以内で入力してください',
+            'name.unique' => 'このメーカーは既に存在します',
+        ])->validateWithBag('maker');
+
         Maker::create([
             'name'=>$request->maker,
         ]);
         // 画面表示
-        return redirect()->route('store');
+        return redirect()->route('store')->withErrors($validator, 'maker');
     }
 
 
@@ -68,14 +96,20 @@ class StoreController extends Controller
      */
     public function makerUpdate(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-        ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100|unique:makers,name',
+        ],
+        [
+            'name.required' => '入力内容を確認してください',
+            'name.max' => '100文字以内で入力してください',
+            'name.unique' => 'このメーカーは既に存在します',
+        ])->validateWithBag('maker');
+
         Maker::where('id', $id)->update([
             'name' => $request->name,
         ]);
 
-        return redirect()->route('store');
+        return redirect()->route('store')->withErrors($validator, 'maker');
     }
     /**
      * メーカー削除
@@ -89,12 +123,31 @@ class StoreController extends Controller
     /**
      * 種別登録
      */
-    public function typeAdd(Request $request){
+    public function typeAdd(Request $request)
+    {
+        if(Type::where('status','null')->where('name', $request->type)->first()){
+            $id = Type::where('status','null')->where('name', $request->type)->first();
+            Type::where('id', $id->id)->update([
+                'status' => 'active',
+            ]);
+            return redirect()->route('store');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100|unique:types,name',
+        ],
+        [
+            'name.required' => '入力内容を確認してください',
+            'name.max' => '100文字以内で入力してください',
+            'name.unique' => 'この種別は既に存在します',
+        ])->validateWithBag('type');
+
+
         Type::create([
             'name'=>$request->type,
         ]);
         // 画面表示
-        return redirect()->route('store');
+        return redirect()->route('store')->withErrors($validator, 'type');
     }
 
     /**
@@ -102,14 +155,22 @@ class StoreController extends Controller
      */
     public function typeUpdate(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-        ]);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100|unique:types,name',
+        ],
+        [
+            'name.required' => '入力内容を確認してください',
+            'name.max' => '100文字以内で入力してください',
+            'name.unique' => 'この種別は既に存在します',
+        ])->validateWithBag('type');
+
+
         Type::where('id', $id)->update([
             'name' => $request->name,
         ]);
 
-        return redirect()->route('store');
+        return redirect()->route('store')->withErrors($validator, 'type');
     }
     /**
      * 種別削除

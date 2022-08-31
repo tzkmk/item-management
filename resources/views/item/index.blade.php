@@ -48,14 +48,14 @@
                                         <select class="mr-2" name="maker">
                                             <option value="">全てのメーカー</option>
                                             @foreach($makers as $maker)
-                                            <option value="{{ $maker->id }}" {{ $maker_id == $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
+                                            <option value="{{ $maker->id }}" {{ $maker_id === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
                                             @endforeach
                                         </select>
                                         <!-- 種別 -->
                                         <select  name="type">
                                             <option value="">全ての種別</option>
                                             @foreach($types as $type)
-                                            <option value="{{ $type->id }}"  {{ $type_id == $type->id? 'selected' : '' }}>{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}"  {{ $type_id === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

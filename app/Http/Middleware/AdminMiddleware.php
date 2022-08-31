@@ -23,7 +23,7 @@ class AdminMiddleware
         if($user === 1){
             return $next($request);
         }else{
-            abort(404);
+            return redirect()->route('home');
         }
     }
 }

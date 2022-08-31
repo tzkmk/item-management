@@ -18,6 +18,7 @@ class Item extends Model
         'type_id',
         'detail',
         'release_at',
+        'status',
     ];
 
     /**
