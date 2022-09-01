@@ -12,7 +12,6 @@
 
         <!-- 商品登録 -->
         <div class="col-md-6">
-
         @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -60,25 +59,26 @@
                             <label for="release_at">発売日</label>
                             <input type="date" class="form-control" id="release_at" name="release_at" value="{{ old('release_at') }}">
                         </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-success mt-3">登録</button>
+                        </div>
                     </div>
 
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">登録</button>
-                    </div>
+
                 </form>
             </div>
         </div>
 
         <div class="col-md-6 d-flex">
-            
             <!-- メーカー一覧 -->
             <div class="d-block col-6">
-                <h4>メーカー一覧</h4>
-                <div>
-                    <form action="{{ route('maker-add') }}" method="post">
+                <h4 class=" text-center">メーカー一覧</h4>
+                <div class="mb-2">
+                    <form class="input-group d-flex justify-content-center" action="{{ route('maker-add') }}" method="post">
                         @csrf 
-                        <input name="maker" type="text" placeholder="メーカーを入力" value="{{ old('maker') }}">
-                        <button type="submit">追加</button>
+                            <input class="form-control" name="maker" type="text" placeholder="メーカーを入力" value="{{ old('maker') }}">
+                            <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
                 @if ($errors->maker->any())
@@ -92,31 +92,34 @@
                 @endif
                 @foreach($makers as $maker)
                 <ul class="mb-0">
-                    <li><a class="modal_open link" data-bs-toggle="modal" data-bs-target="#maker-modal-{{ $maker->id }}" href="#">{{$maker->name}}</a></li>
+                    <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#maker-modal-{{ $maker->id }}" href="#">{{$maker->name}}</a></li>
                 </ul>
                 <!-- モーダル表示内容 -->
                 <div class="modal fade" id="maker-modal-{{ $maker->id }}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content w-75 m-auto">
                             <div class="modal-header d-flex justify-content-between">
-                                <h3 class="modal-title">メーカー編集</h5>
+                                <h3 class="modal-title">メーカー編集</h3>
+                                <!-- 削除ボタン -->
+                                <form method="POST"  action="{{ route('maker-delete', ['id' => $maker->id]) }}" >
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger" >削除</button>
+                                </form>
                             </div>
                             <div class="modal-body">
                                 <form method="post" action="{{ route('maker-update', ['id' => $maker->id])}}">
                                     @csrf
                                     <div class="w-75 m-auto text-start">
-                                        <p class="mb-0">メーカー名</p>
-                                        <input name="name" class="w-100" type="text" value="{{ $maker->name }}">
+                                       <label for="maker">メーカー名</label>
+                                        <input id="name" name="name" class="w-100" type="text" value="{{ $maker->name }}">
                                     </div>
-                                    <button type="submit" class="btn btn-primary" >変更</button>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-outline-success mt-3">変更</button>
+                                    </div>
                                 </form>
-                                <!-- 削除ボタン -->
-                                <form method="POST"  action="{{ route('maker-delete', ['id' => $maker->id]) }}" >
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger" >削除</button>
-                                </form>
+
                             </div>
-                            <div class="modal-footer justify-content-center">
+                            <div class="modal-footer justify-content-right">
                                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-dismiss="modal">閉じる</button>
                             </div>
                         </div>
@@ -127,12 +130,12 @@
     
             <!-- 種別一覧 -->
             <div class="d-block col-6">
-                <h4>種別一覧</h4>
-                <div>
-                    <form action="{{ route('type-add') }}" method="post">
+                <h4 class=" text-center">種別一覧</h4>
+                <div class="mb-2">
+                    <form class="input-group d-flex justify-content-center" action="{{ route('type-add') }}" method="post">
                         @csrf 
-                        <input name="type" type="text" placeholder="種別を入力" value="{{ old('type') }}">
-                        <button type="submit">追加</button>
+                        <input class="form-control" name="type" type="text" placeholder="種別を入力" value="{{ old('type') }}">
+                        <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
                 @if ($errors->type->any())
@@ -146,31 +149,34 @@
                 @endif
                 @foreach($types as $type)
                 <ul class="mb-0">
-                    <li><a class="modal_open link" data-bs-toggle="modal" data-bs-target="#type-modal-{{ $type->id }}" href="#">{{$type->name}}</a></li>
+                    <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#type-modal-{{ $type->id }}" href="#">{{$type->name}}</a></li>
                 </ul>
                 <!-- モーダル表示内容 -->
                 <div class="modal fade" id="type-modal-{{ $type->id }}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content w-75 m-auto">
                             <div class="modal-header d-flex justify-content-between">
-                                <h3 class="modal-title">種別編集</h5>
+                                <h3 class="modal-title">種別編集</h3>
+                                <!-- 削除ボタン -->
+                                <form method="POST"  action="{{ route('type-delete', ['id' => $type->id]) }}" >
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger" >削除</button>
+                                </form>
                             </div>
                             <div class="modal-body">
                                 <form method="post" action="{{ route('type-update', ['id' => $type->id])}}">
                                     @csrf
                                     <div class="w-75 m-auto text-start">
-                                        <p class="mb-0">種別名</p>
-                                        <input name="name" class="w-100" type="text" value="{{ $type->name }}">
+                                        <label for="type">種別名</label>
+                                        <input id="type" name="name" class="w-100" type="text" value="{{ $type->name }}">
                                     </div>
-                                    <button type="submit" class="btn btn-primary" >変更</button>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-outline-success mt-3">変更</button>
+                                    </div>
                                 </form>
-                                <!-- 削除ボタン -->
-                                <form method="POST"  action="{{ route('type-delete', ['id' => $type->id]) }}" >
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger" >削除</button>
-                                </form>
+
                             </div>
-                            <div class="modal-footer justify-content-center">
+                            <div class="modal-footer justify-content-right">
                                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-dismiss="modal">閉じる</button>
                             </div>
                         </div>

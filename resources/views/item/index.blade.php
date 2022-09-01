@@ -19,17 +19,17 @@
                         <div class="d-flex m-2">
                             <div class="flex-fill d-block">
                                 <!-- 一覧表示項目 -->
-                                <label for="sort-box">一覧表示項目</label>
-                                <div id="sort-box" class="mb-2 ">
+                                <p class="text-secondary mb-1">一覧表示項目</p>
+                                <div class="mb-2 ">
                                     @foreach($lists as $list)
-                                        <input type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}
+                                    <label class="mr-2" for="{{ $list[0] }}"><input id="{{ $list[0] }}" type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}</label>
                                     @endforeach
                                 </div>
 
                                 <!-- 並べ替え -->
-                                <label for="sort-box">並べ替え</label>
-                                <div id="sort-box" class="mb-2 ">
-                                    <select name="sort">
+                                <p class="text-secondary mb-1">並べ替え</p>
+                                <div class="mb-2 d-flex justify-content-center">
+                                    <select name="sort" class="form-control form-control-sm w-25">
                                         <option value="id" {{ $sort === "id"? 'selected' : '' }}>ID</option>
                                         <option value="name" {{ $sort === "name"? 'selected' : '' }}>商品名</option>
                                         <option value="maker_name" {{ $sort === "maker_name"? 'selected' : '' }}>メーカー</option>
@@ -37,24 +37,26 @@
                                         <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }}>発売日</option>
                                         <option value="updated_at" {{ $sort === "updated_at"? 'selected' : '' }}>更新日</option>
                                     </select>
-                                    <input type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }}>昇順
-                                    <input type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }}>降順
+                                    <div class="ml-2 mt-1">
+                                        <label class="mr-2" for="asc"><input id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }}>昇順</label>
+                                        <label for="desc"><input id="desc" type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }}>降順</label>
+                                    </div>                                  
                                 </div>
                             </div>
                             <div class="flex-fill d-block">
                                 <!-- 絞り込み検索 -->
-                                <label for="search-box">検索欄</label>
-                                <div class="d-block" id="search-box">
+                                <p class="text-secondary">検索欄</p>
+                                <div class="d-block">
                                     <!-- メーカー -->
-                                    <div class="mb-2 d-flex justify-content-center">
-                                        <select class="mr-2" name="maker">
+                                    <div class="mb-2 d-flex justify-content-center form-group">
+                                        <select class="mr-2 form-control form-control-sm" name="maker">
                                             <option value="">全てのメーカー</option>
                                             @foreach($makers as $maker)
                                             <option value="{{ $maker->id }}" {{ (int)$maker_id === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
                                             @endforeach
                                         </select>
                                         <!-- 種別 -->
-                                        <select  name="type">
+                                        <select class="form-control form-control-sm" name="type">
                                             <option value="">全ての種別</option>
                                             @foreach($types as $type)
                                             <option value="{{ $type->id }}"  {{ (int)$type_id === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
@@ -84,9 +86,9 @@
                     </div>
 
                     <!-- 商品テーブル -->
-                    <div class="card-body table-responsive p-0">
+                    <div class="card-body table-responsive p-0 m-0" >
                         @if(count($items)>0)
-                        <table class="table table-hover table-sm table-bordered text-wrap">
+                        <table class="table table-hover table-sm table-bordered text-wrap" style="table-layout:fixed;">
                             <thead>
                                 <tr class="table-secondary">
                                     @foreach($lists as $key => $list)
@@ -94,13 +96,13 @@
                                                 <th>{{ $list[1] }}</th>
                                         @endif -->
                                         @if($list[2] === 'check' && ($list[0] !== 'name' && $list[0] !== 'detail'))
-                                            <th class="p-2">{{ $list[1] }}</th>
+                                            <th class="p-2 col-1" style="width:80px;">{{ $list[1] }}</th>
                                         @elseif($list[2] === 'check')
-                                            <th class="w-25 p-2">{{ $list[1] }}</th>
+                                            <th class=" p-2 col-1" style="width:200px;">{{ $list[1] }}</th>
                                         @endif
                                     @endforeach
                                     @if($user->admin_id === 1 )
-                                        <th></th>
+                                        <th class="col-1" style="width:50px;"></th>
                                     @endif
                                 </tr>
                             </thead>

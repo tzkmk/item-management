@@ -18,15 +18,17 @@
                     </ul>
                 </div>
             @endif
-            <!-- 削除ボタン -->
-            <div class="text-right mb-2" >
-                <form method="POST" action="{{ route('delete', ['id' => $item->id]) }}" >
-                    @csrf
-                    <button type="submit" class="btn btn-danger" >削除</button>
-                </form>
-            </div>
 
-            <div class="card card-primary">
+            <div class="card card-light">
+                <div class="card-header">
+                    <!-- 削除ボタン -->
+                    <div class="text-right mb-2" >
+                        <form method="POST" action="{{ route('delete', ['id' => $item->id]) }}" >
+                            @csrf
+                            <button type="submit" class="btn  btn-outline-danger" >削除</button>
+                        </form>
+                    </div>
+                </div>
 
                 <form method="POST" action="{{ route('update', ['id' => $item->id]) }}">
                     @csrf
@@ -65,12 +67,10 @@
                             <label for="release_at">発売日</label>
                             <input type="date" class="form-control" id="release_at" name="release_at"  value="{{ $item->release_at }}">
                         </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-success mt-3">変更</button>
+                        </div>
                     </div>
-
-                    <div class="card-footer text-center">
-                        <button type="submit" class="btn btn-primary">変更</button>
-                    </div>
-
                 </form>
 
 

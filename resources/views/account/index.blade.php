@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8 m-auto">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -19,7 +19,14 @@
                 </div>
             @endif
 
-            <div class="card card-primary">
+            <div class="card card-light">
+                <div class="card-header">
+                    <!-- 削除ボタン -->
+                    <form method="POST" class="text-right" action="{{ route('account-delete', ['id' => $user->id]) }}" >
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger" >削除</button>
+                    </form>
+                </div>
 
                 <form method="POST" action="{{ route('account-update', ['id' => $user->id]) }}">
                     @csrf
@@ -37,19 +44,13 @@
                             <label for="password">パスワード</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを変更する場合は、入力してください">
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">変更</button>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-success mt-3">変更</button>
+                        </div>
+
                     </div>
 
                 </form>
-
-                <!-- 削除ボタン -->
-                <form method="POST"  action="{{ route('account-delete', ['id' => $user->id]) }}" >
-                    @csrf
-                    <button type="submit" class="btn btn-danger" >削除</button>
-                </form>
-
             </div>
         </div>
     </div>

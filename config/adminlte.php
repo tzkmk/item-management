@@ -231,7 +231,7 @@ return [
             'icon' => 'fas fa fa-list-alt',
         ],
         [
-            'text' => 'カレンダー',
+            'text' => '発売日カレンダー',
             'url'  => 'calendar',
             'icon' => 'far fa-fw fa-calendar',
         ],

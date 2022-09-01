@@ -24,7 +24,7 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        $user_id = \Auth::id();
+        $user_id = Auth::id();
         $user = User::where('id', $user_id)->first();
 
 

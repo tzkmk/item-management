@@ -16,9 +16,9 @@
                         <!-- 絞り込み検索 -->
                         <div  class="d-block">
                             <label for="search-box">ユーザー検索</label>
-                            <div id="search-box" class="mb-2 d-flex justify-content-center">
+                            <div id="search-box" class="mb-2 d-flex justify-content-center form-group">
                                 <!-- 管理者権限 -->
-                                <select class="mr-2" name="admin_id">
+                                <select class="mr-2 form-control" name="admin_id">
                                     <option value="">管理者権限</option>
                                     <option value="1" {{ (int)$admin_id === 1 ? 'selected' : '' }}>権限：有</option>
                                     <option value="null" {{ $admin_id === 'null' ? 'selected' : '' }}>権限：無</option>
@@ -36,7 +36,7 @@
 
                 <!-- ユーザー一覧 -->
                 <div class="card-body justify-content-center">
-                    <table class="table table-sm table-bordered text-center">
+                    <table class="table table-sm table-bordered text-center table-hover">
                             <tr class="table-secondary">
                                 <th>ID</th>
                                 <th>名前</th>

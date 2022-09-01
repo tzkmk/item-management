@@ -23,7 +23,7 @@ class CalendarController extends Controller
     }
 
     public function index(Request $request){
-
+        $user = User::where('id', Auth::id())->first();
                             
         // カレンダー表示用の日付取得
         $month = $request->month;
@@ -65,9 +65,11 @@ class CalendarController extends Controller
                         ->leftjoinSub($types, 'types', function ($join) {
                             $join->on('items.type_id', '=', 'types.type_id');
                             })->get();
+        $makers = Maker::get();
+        $types = Type::get();
 
         // 画面表示
-        return view('calendar.index', compact('items', 'weeks', 'month'));
+        return view('calendar.index', compact('items', 'weeks', 'month', 'user', 'makers', 'types'));
     }
 
 }
