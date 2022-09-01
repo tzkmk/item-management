@@ -3,8 +3,10 @@
 @section('title', '商品一覧')
 
 @section('content_header')
-    <h1>商品一覧</h1>
-    <input type="submit" value="このページを印刷する" onclick="window.print();">
+<div class="d-flex justify-content-between">
+        <h1>商品一覧</h1>
+        <input type="submit" value="このページを印刷する" onclick="window.print();">
+</div>
 @stop
 
 @section('content')
@@ -48,14 +50,14 @@
                                         <select class="mr-2" name="maker">
                                             <option value="">全てのメーカー</option>
                                             @foreach($makers as $maker)
-                                            <option value="{{ $maker->id }}" {{ $maker_id === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
+                                            <option value="{{ $maker->id }}" {{ (int)$maker_id === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
                                             @endforeach
                                         </select>
                                         <!-- 種別 -->
                                         <select  name="type">
                                             <option value="">全ての種別</option>
                                             @foreach($types as $type)
-                                            <option value="{{ $type->id }}"  {{ $type_id === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}"  {{ (int)$type_id === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -71,8 +73,10 @@
 
                 <!-- 商品検索 -->
                 <div class="main text-center">
-                    @if(count($items)>0)
-                    <p class="text-start ms-2">一覧表示数 : 全 {{ $all_item }} 点中 {{ $count_item }} 点</p>
+                    @if(!empty($keyword) || !empty($maker_id) || !empty($type_id))
+                    <p class="text-left ml-2">検索一致商品数 : 全 {{ $all_item }} 件中 {{ $count_item }} 件</p>
+                    @else(count($items)>0)
+                    <p class="text-left ml-2">登録商品数 :  全 {{ $all_item }} 件</p>                    
                     @endif
                     <!-- ページネーション -->
                     <div class="pagination justify-content-center">
@@ -82,12 +86,17 @@
                     <!-- 商品テーブル -->
                     <div class="card-body table-responsive p-0">
                         @if(count($items)>0)
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover table-sm table-bordered text-wrap">
                             <thead>
-                                <tr>
+                                <tr class="table-secondary">
                                     @foreach($lists as $key => $list)
-                                        @if($list[2] === 'check')
-                                                <td>{{ $list[1] }}</td>
+                                        <!-- @if($list[2] === 'check')
+                                                <th>{{ $list[1] }}</th>
+                                        @endif -->
+                                        @if($list[2] === 'check' && ($list[0] !== 'name' && $list[0] !== 'detail'))
+                                            <th class="p-2">{{ $list[1] }}</th>
+                                        @elseif($list[2] === 'check')
+                                            <th class="w-25 p-2">{{ $list[1] }}</th>
                                         @endif
                                     @endforeach
                                     @if($user->admin_id === 1 )
@@ -99,16 +108,22 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         @foreach($lists as $key => $list)
-                                            @if($list[2] === 'check')
-                                                <td>{{ $item->$key }}</td>
+                                            @if($list[2] === 'check' && ($list[0] !== 'updated_at' && $list[0] !== 'release_at' && $list[0] !== 'id'))
+                                                <td class="p-1 align-middle text-left">{{ $item->$key }}</td>
+                                            @elseif($list[2] === 'check')
+                                                @if($list[0] !== 'id' && $item->$key !== null)
+                                                <td class="p-1 align-middle">{{ date('Y/m/d', strtotime($item->$key)) }}</td>
+                                                @else
+                                                <td class="p-1 align-middle">{{ $item->$key }}</td>
+                                                @endif                                      
                                             @endif
                                         @endforeach
 
                                         @if($user->admin_id === 1 )
-                                            <td>
+                                            <td class="p-1 align-middle">
                                                 <form action="{{ route('edit', ['id' => $item->id]) }}" method="get">
                                                     @csrf
-                                                    <button class="btn btn-sm btn-outline-danger" type="submit">編集</button>
+                                                    <button class="btn btn-sm btn-outline-success" type="submit">編集</button>
                                                 </form>
                                             </td>
                                         @endif

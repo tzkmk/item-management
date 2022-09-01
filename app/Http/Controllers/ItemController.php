@@ -109,39 +109,6 @@ class ItemController extends Controller
         return view('item.index', compact('items', 'all_item','count_item','keyword', 'order', 'sort', 'makers', 'types', 'maker_id', 'type_id', 'lists','user'));
     }
 
-    // /**
-    //  * 商品登録
-    //  */
-    // public function add(Request $request)
-    // {
-    //     // POSTリクエストのとき
-    //     if ($request->isMethod('post')) {
-    //         // バリデーション
-    //         $this->validate($request, [
-    //             'name' => 'required|max:100',
-    //         ]);
-
-    //         // 商品登録
-    //         Item::create([
-    //             'user_id' => Auth::user()->id,
-    //             'name' => $request->name,
-    //             'maker_id' => $request->maker,
-    //             'type_id' => $request->type,
-    //             'detail' => $request->detail,
-    //             'release_at' => $request->release_at,
-
-    //         ]);
-
-    //         return redirect()->route('item-home');
-    //     }
-        
-
-    //     $makers = Maker::where('status', 'active')->orderby('name')->get();
-    //     $types = Type::where('status', 'active')->orderby('name')->get();
-
-    //     return view('item.add', compact('makers', 'types'));
-    // }
-
     /**
      * 商品編集画面
      */

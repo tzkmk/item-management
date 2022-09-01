@@ -21,10 +21,30 @@ class UserController extends Controller
     //ユーザー情報を取得してユーザー情報一覧に表示する
     public function index(Request $request){
 
-        $users = User::all();
+                // 検索キーワード取得
+                $keyword = mb_convert_kana($request->keyword, 'sa'); 
+                $keywords = explode(" ", $keyword);
+                if(!empty(preg_grep("#\\\#", $keywords))){
+                    $keywords = str_replace( "\\" ,  "\\\\" , $keywords);
+                }
+                $query = User::query();
+                if($keyword){
+                    foreach($keywords as $value) {
+                        $query->where('name','LIKE',"%{$value}%");
+                    }
+                }
+        
+                // 権限絞り込み
+                $admin_id = '';
+                if($request->admin_id){
+                    $admin_id = $request->admin_id;
+                    $query->where('admin_id', $admin_id);
+                }
+
+        $users = $query->orderby('id' , 'asc')->get();
 
         //画面表示
-        return view('user.index',compact('users'));
+        return view('user.index',compact('users', 'admin_id', 'keyword'));
     }
 
     /**
@@ -49,41 +69,4 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    // /**
-    //  * ユーザー編集画面
-    //  */
-    // public function edit($id)
-    // {
-    //     $user = User::where('id', $id)->first();
-
-    //     return view('user.edit', compact('user'));
-    // }
-
-
-//     /**
-//      * ユーザー更新
-//      */
-//     public function update(Request $request, $id)
-//     {
-//         $user = \Auth::user();
-//         $validated = $request->validate([
-//             'name' => ['required', 'string', 'max:255'],
-//             'email' => ['required', 'string', 'email', 'max:255'],
-//         ]);
-//         User::where('id', $id)->update([
-//             'name' => $request->name,
-//             'email' => $request->email,
-//             'admin_id' => (int)$request->admin_id,
-//         ]);
-
-//         return redirect()->route('users');
-//     }
-//     /**
-//      * ユーザー削除
-//      */
-//     public function delete($id) 
-//     {
-//         User::where('id', $id)->delete();
-//         return redirect()->route('users');
-//     }
 }

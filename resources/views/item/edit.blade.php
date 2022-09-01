@@ -18,6 +18,13 @@
                     </ul>
                 </div>
             @endif
+            <!-- 削除ボタン -->
+            <div class="text-right mb-2" >
+                <form method="POST" action="{{ route('delete', ['id' => $item->id]) }}" >
+                    @csrf
+                    <button type="submit" class="btn btn-danger" >削除</button>
+                </form>
+            </div>
 
             <div class="card card-primary">
 
@@ -60,17 +67,13 @@
                         </div>
                     </div>
 
-                    <div class="card-footer">
+                    <div class="card-footer text-center">
                         <button type="submit" class="btn btn-primary">変更</button>
                     </div>
 
                 </form>
 
-                <!-- 削除ボタン -->
-                <form method="POST"  action="{{ route('delete', ['id' => $item->id]) }}" >
-                    @csrf
-                    <button type="submit" class="btn btn-danger" >削除</button>
-                </form>
+
 
             </div>
         </div>

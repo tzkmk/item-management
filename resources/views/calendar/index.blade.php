@@ -3,8 +3,10 @@
 @section('title', 'カレンダー')
 
 @section('content_header')
-    <h1>カレンダー</h1>
-    <input type="submit" value="このページを印刷する" onclick="window.print();">
+    <div class="d-flex justify-content-between">
+        <h1>カレンダー</h1>
+        <input type="submit" value="このページを印刷する" onclick="window.print();">
+    </div>  
 @stop
 
 @section('content')
