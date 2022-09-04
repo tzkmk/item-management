@@ -4,7 +4,15 @@
 
 @section('content_header')
     <h1>商品登録</h1>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @stop
 
 @section('content')
@@ -12,15 +20,7 @@
 
         <!-- 商品登録 -->
         <div class="col-md-6">
-        @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                       @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                       @endforeach
-                    </ul>
-                </div>
-            @endif
+
             <div class="card card-primary">
                 <form method="POST">
                     @csrf
@@ -81,15 +81,6 @@
                             <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
-                @if ($errors->maker->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                        @foreach ($errors->maker->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                        </ul>
-                    </div>
-                @endif
                 @foreach($makers as $maker)
                 <ul class="mb-0">
                     <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#maker-modal-{{ $maker->id }}" href="#">{{$maker->name}}</a></li>
@@ -111,7 +102,7 @@
                                     @csrf
                                     <div class="w-75 m-auto text-start">
                                        <label for="maker">メーカー名</label>
-                                        <input id="name" name="name" class="w-100" type="text" value="{{ $maker->name }}">
+                                        <input id="name" name="edit_maker" class="w-100" type="text" value="{{ $maker->name }}">
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-outline-success mt-3">変更</button>
@@ -138,15 +129,6 @@
                         <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
-                @if ($errors->type->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                        @foreach ($errors->type->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                        </ul>
-                    </div>
-                @endif
                 @foreach($types as $type)
                 <ul class="mb-0">
                     <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#type-modal-{{ $type->id }}" href="#">{{$type->name}}</a></li>
@@ -168,7 +150,7 @@
                                     @csrf
                                     <div class="w-75 m-auto text-start">
                                         <label for="type">種別名</label>
-                                        <input id="type" name="name" class="w-100" type="text" value="{{ $type->name }}">
+                                        <input id="type" name="edit_type" class="w-100" type="text" value="{{ $type->name }}">
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-outline-success mt-3">変更</button>
