@@ -23,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // 
+        if(\App::environment(['production'])){
+            \URL::forceScheme('https');
+        }
+
+        // ページネーションリンクをhttps対応（.env APP_ENV=localでない場合https化）
+        if (!$this->app->environment('local')) {
+            $this->app['request']->server->set('HTTPS', 'on');
+        }
     }
 }
