@@ -52,6 +52,7 @@ Route::prefix('store')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users')->middleware('AdminMiddleware');
+    Route::post('/', [App\Http\Controllers\UserController::class, 'index'])->name('users-post');
     Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin-update');
     Route::post('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('admin-delete');
 });

@@ -41,7 +41,7 @@ class UserController extends Controller
                     $query->where('admin_id', $admin_id);
                 }
 
-        $users = $query->orderby('id' , 'asc')->get();
+        $users = $query->orderby('id' , 'asc')->paginate(10);
 
         //画面表示
         return view('user.index',compact('users', 'admin_id', 'keyword'));

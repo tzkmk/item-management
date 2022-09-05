@@ -66,6 +66,6 @@ class AccountController extends Controller
     public function delete($id) 
     {
         User::where('id', $id)->delete();
-        return redirect()->route('account');
+        return redirect('login');
     }
 }

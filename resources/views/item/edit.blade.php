@@ -37,6 +37,15 @@
                             <label for="name">名前</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="名前" value="{{ $item->name }}">
                         </div>
+                        @if ($errors->has('name'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('name') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="maker">メーカー</label>
@@ -47,6 +56,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if ($errors->has('maker'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('maker') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="type">種別</label>
@@ -62,6 +80,15 @@
                             <label for="detail">詳細</label>
                             <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明">{{ $item->detail }}</textarea>
                         </div>
+                        @if ($errors->has('detail'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('detail') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="release_at">発売日</label>
@@ -81,6 +108,8 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 @stop
 
 @section('js')

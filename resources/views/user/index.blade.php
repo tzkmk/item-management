@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header mb-2 earch-form text-center">
-                    <form class="input-group d-flex justify-content-center" action="{{ route('users') }}" method="get">
+                    <form class="input-group d-flex justify-content-center" action="{{ route('users-post') }}" method="post">
                         @csrf
                         <!-- 絞り込み検索 -->
                         <div  class="d-block">
@@ -21,7 +21,7 @@
                                 <select class="mr-2 form-control" name="admin_id">
                                     <option value="">管理者権限</option>
                                     <option value="1" {{ (int)$admin_id === 1 ? 'selected' : '' }}>権限：有</option>
-                                    <option value="null" {{ $admin_id === 'null' ? 'selected' : '' }}>権限：無</option>
+                                    <option value="0" {{ (int)$admin_id === 0 ? 'selected' : '' }}>権限：無</option>
                                 </select>
                                 <!-- キーワード検索 -->
                                 <input class="form-control" type="text" name="keyword" placeholder="ユーザー名検索" value="{{ $keyword }}">
@@ -33,9 +33,14 @@
 
                     </form>
                 </div>
+                    <!-- ページネーション -->
+                    <div class="pagination justify-content-center">
+                        {{ $users->appends(request()->query())->links('pagination::bootstrap-4') }}
+                    </div>
 
                 <!-- ユーザー一覧 -->
                 <div class="card-body justify-content-center">
+                @if(count($users)>0)
                     <table class="table table-sm table-bordered text-center table-hover">
                             <tr class="table-secondary">
                                 <th>ID</th>
@@ -69,6 +74,9 @@
                                 </tr>
                             @endforeach
                     </table>
+                @else
+                <p>一致するユーザーは存在しません</p>
+                @endif
                 </div>
             </div>
 
