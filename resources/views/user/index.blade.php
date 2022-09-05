@@ -21,7 +21,7 @@
                                 <select class="mr-2 form-control" name="admin_id">
                                     <option value="">管理者権限</option>
                                     <option value="1" {{ (int)$admin_id === 1 ? 'selected' : '' }}>権限：有</option>
-                                    <option value="0" {{ (int)$admin_id === 0 ? 'selected' : '' }}>権限：無</option>
+                                    <option value="2" {{ (int)$admin_id === 2 ? 'selected' : '' }}>権限：無</option>
                                 </select>
                                 <!-- キーワード検索 -->
                                 <input class="form-control" type="text" name="keyword" placeholder="ユーザー名検索" value="{{ $keyword }}">

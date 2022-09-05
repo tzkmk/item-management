@@ -38,7 +38,11 @@ class UserController extends Controller
                 $admin_id = '';
                 if($request->admin_id){
                     $admin_id = $request->admin_id;
-                    $query->where('admin_id', $admin_id);
+                    if($admin_id == 2){
+                        $query->where('admin_id', 0);
+                    }else{
+                        $query->where('admin_id', $admin_id);
+                    }
                 }
 
         $users = $query->orderby('id' , 'asc')->paginate(10);
