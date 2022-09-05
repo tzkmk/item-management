@@ -78,7 +78,7 @@ class StoreController extends Controller
         [
             'maker.required' => 'メーカー名を入力してください',
             'maker.max' => '100文字以内で入力してください',
-            'maker.unique' => 'このメーカーは既に存在します',
+            'maker.unique' => $request->maker.'は既に登録されています',
 
         ]);
 
@@ -96,12 +96,12 @@ class StoreController extends Controller
     public function makerUpdate(Request $request, $id)
     {
         $validated = $request->validate([
-            'edit_maker' => 'required|max:100|unique:makers,name',
+            'edit_maker' => 'required|max:100|unique:makers,name,'.$id.',id',
         ],
         [
             'edit_maker.required' => 'メーカー名を入力してください',
             'edit_maker.max' => '100文字以内で入力してください',
-            'edit_maker.unique' => 'このメーカーは既に存在します',
+            'edit_maker.unique' => $request->edit_maker.'は既に存在します',
 
         ]);
 
@@ -134,12 +134,12 @@ class StoreController extends Controller
         }
 
         $validated = $request->validate([
-            'type' => ['required', 'max:100', 'unique:types,name'],
+            'type' => 'required|max:100|unique:types,name',
         ],
         [
             'type.required' => '種別名を入力してください',
             'type.max' => '100文字以内で入力してください',
-            'type.unique' => 'この種別名は既に存在します',
+            'type.unique' => $request->type.'は既に存在します',
         ]);
 
 
@@ -157,12 +157,12 @@ class StoreController extends Controller
     {
 
         $validated = $request->validate([
-            'edit_type' => ['required', 'max:100', 'unique:types,name'],
+            'edit_type' => 'required|max:100|unique:types,name,'.$id.',id',
         ],
         [
             'edit_type.required' => '種別名を入力してください',
             'edit_type.max' => '100文字以内で入力してください',
-            'edit_type.unique' => 'この種別名は既に存在します',
+            'edit_type.unique' => $request->edit_type.'は既に存在します',
         ]);
 
         Type::where('id', $id)->update([

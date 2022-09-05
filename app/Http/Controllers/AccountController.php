@@ -37,10 +37,11 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_email = User::where('id', $id)->value('email');
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['string', 'min:8', 'nullable'],
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id.',id',
+            'password' => 'string|min:8|nullable',
         ]);
 
         User::where('id', $id)->update([

@@ -23,6 +23,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::prefix('items')->group(function () {
     Route::get('/', [App\Http\Controllers\ItemController::class, 'index'])->name('item-home');
+    Route::post('/', [App\Http\Controllers\ItemController::class, 'index'])->name('item-post');
     Route::get('/edit/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edit')->middleware('AdminMiddleware');
     Route::post('/update/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('update');
     Route::post('/delete/{id}', [App\Http\Controllers\ItemController::class, 'delete'])->name('delete');

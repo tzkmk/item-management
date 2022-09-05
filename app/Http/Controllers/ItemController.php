@@ -25,6 +25,13 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
+        if ($request->isMethod('post')) {
+            // バリデーション
+            $this->validate($request, [
+                'list_items' => 'required',
+            ]);
+        }
+
         $user = User::where('id', Auth::id())->first();
 
         // 一覧表示項目選択

@@ -4,15 +4,6 @@
 
 @section('content_header')
     <h1>商品登録</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 @stop
 
 @section('content')
@@ -20,8 +11,7 @@
 
         <!-- 商品登録 -->
         <div class="col-md-6">
-
-            <div class="card card-primary">
+            <div class="card ">
                 <form method="POST">
                     @csrf
                     <div class="card-body">
@@ -29,6 +19,15 @@
                             <label for="name">名前</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="名前" value="{{ old('name') }}">
                         </div>
+                        @if ($errors->has('name'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('name') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="maker">メーカー</label>
@@ -39,6 +38,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if ($errors->has('maker_id'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('maker_id') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="type">種別</label>
@@ -52,8 +60,17 @@
 
                         <div class="form-group">
                             <label for="detail">詳細</label>
-                            <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明" value="{{ old('detail') }}"></textarea>
+                            <textarea class="form-control" name="detail" id="detail" cols="30" rows="5" placeholder="詳細説明">{{ old('detail') }}</textarea>
                         </div>
+                        @if ($errors->has('detail'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->get('detail') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="release_at">発売日</label>
@@ -81,6 +98,21 @@
                             <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
+                @if ($errors->has('maker') || $errors->has('edit_maker'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @if ($errors->has('maker'))
+                            @foreach ($errors->get('maker') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            @else
+                            @foreach ($errors->get('edit_maker') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                @endif
                 @foreach($makers as $maker)
                 <ul class="mb-0">
                     <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#maker-modal-{{ $maker->id }}" href="#">{{$maker->name}}</a></li>
@@ -129,6 +161,21 @@
                         <button class="btn btn-sm btn-secondary" type="submit">追加</button>
                     </form>
                 </div>
+                @if ($errors->has('type') || $errors->has('edit_type'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            @if ($errors->has('type'))
+                            @foreach ($errors->get('type') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            @else
+                            @foreach ($errors->get('edit_type') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                @endif
                 @foreach($types as $type)
                 <ul class="mb-0">
                     <li><a class="modal_open link text-dark" data-bs-toggle="modal" data-bs-target="#type-modal-{{ $type->id }}" href="#">{{$type->name}}</a></li>

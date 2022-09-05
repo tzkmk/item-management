@@ -14,7 +14,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header mb-2 earch-form text-center">
-                    <form class="input-group d-block" action="{{ route('item-home') }}" method="get">
+                    <form class="input-group d-block" action="{{ route('item-post') }}" method="post">
                         @csrf
                         <div class="d-flex m-2">
                             <div class="flex-fill d-block">
@@ -25,21 +25,30 @@
                                     <label class="mr-2" for="{{ $list[0] }}"><input id="{{ $list[0] }}" type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}</label>
                                     @endforeach
                                 </div>
+                                @if ($errors->has('list_items'))
+                                    <div class="alert alert-danger text-left w-75 m-auto">
+                                        <ul>
+                                            @foreach ($errors->get('list_items') as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
                                 <!-- 並べ替え -->
                                 <p class="text-secondary mb-1">並べ替え</p>
                                 <div class="mb-2 d-flex justify-content-center">
                                     <select name="sort" class="form-control form-control-sm w-25">
-                                        <option value="id" {{ $sort === "id"? 'selected' : '' }}>ID</option>
-                                        <option value="name" {{ $sort === "name"? 'selected' : '' }}>商品名</option>
-                                        <option value="maker_name" {{ $sort === "maker_name"? 'selected' : '' }}>メーカー</option>
-                                        <option value="type_name" {{ $sort === "type_name"? 'selected' : '' }}>種別</option>
-                                        <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }}>発売日</option>
-                                        <option value="updated_at" {{ $sort === "updated_at"? 'selected' : '' }}>更新日</option>
+                                        <option value="id" {{ $sort === "id"? 'selected' : '' }} {{ old('sort') === "id"? 'selected' : '' }}>ID</option>
+                                        <option value="name" {{ $sort === "name"? 'selected' : '' }} {{ old('sort') === "name"? 'selected' : '' }}>商品名</option>
+                                        <option value="maker_name" {{ $sort === "maker_name"? 'selected' : '' }} {{ old('sort') === "maker_name"? 'selected' : '' }} >メーカー</option>
+                                        <option value="type_name" {{ $sort === "type_name"? 'selected' : '' }} {{ old('sort') === "type_name"? 'selected' : '' }}>種別</option>
+                                        <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }} {{ old('sort') === "release_at"? 'selected' : '' }}>発売日</option>
+                                        <option value="updated_at" {{ $sort === "updated_at"? 'selected' : '' }} {{ old('sort') === "updated_at"? 'selected' : '' }}>更新日</option>
                                     </select>
                                     <div class="ml-2 mt-1">
-                                        <label class="mr-2" for="asc"><input id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }}>昇順</label>
-                                        <label for="desc"><input id="desc" type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }}>降順</label>
+                                        <label class="mr-2" for="asc"><input id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }} {{ old('order') === "asc"? 'checked' : '' }}>昇順</label>
+                                        <label for="desc"><input id="desc" type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }} {{ old('order') === "desc"? 'checked' : '' }}>降順</label>
                                     </div>                                  
                                 </div>
                             </div>
@@ -52,19 +61,19 @@
                                         <select class="mr-2 form-control form-control-sm" name="maker">
                                             <option value="">全てのメーカー</option>
                                             @foreach($makers as $maker)
-                                            <option value="{{ $maker->id }}" {{ (int)$maker_id === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
+                                            <option value="{{ $maker->id }}" {{ (int)$maker_id === $maker->id? 'selected' : '' }} {{ (int)old('maker') === $maker->id? 'selected' : '' }}>{{ $maker->name }}</option>
                                             @endforeach
                                         </select>
                                         <!-- 種別 -->
                                         <select class="form-control form-control-sm" name="type">
                                             <option value="">全ての種別</option>
                                             @foreach($types as $type)
-                                            <option value="{{ $type->id }}"  {{ (int)$type_id === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
+                                            <option value="{{ $type->id }}"  {{ (int)$type_id === $type->id? 'selected' : '' }}  {{ (int)old('type') === $type->id? 'selected' : '' }}>{{ $type->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <!-- キーワード検索 -->
-                                    <input class="form-control" type="text" name="keyword" placeholder="検索キーワード" value="{{ $keyword }}">
+                                    <input class="form-control" type="text" name="keyword" placeholder="検索キーワード" value="{{ $keyword }}{{ old('keyword') }}">
                                     
                                 </div>
                             </div>
