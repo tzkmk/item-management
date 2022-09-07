@@ -39,7 +39,7 @@ class AccountController extends Controller
     {
         $user_email = User::where('id', $id)->value('email');
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id.',id',
             'password' => 'string|min:8|nullable',
         ]);
