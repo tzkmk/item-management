@@ -95,6 +95,14 @@ class StoreController extends Controller
      */
     public function makerUpdate(Request $request, $id)
     {
+        if(Maker::where('status','null')->where('name', $request->maker)->first()){
+            $id = Maker::where('status','null')->where('name', $request->maker)->first();
+            Maker::where('id', $id->id)->update([
+                'status' => 'active',
+            ]);
+            return redirect()->route('store');
+        }
+
         $validated = $request->validate([
             'edit_maker' => 'required|max:100|unique:makers,name,'.$id.',id',
         ],
@@ -155,7 +163,14 @@ class StoreController extends Controller
      */
     public function typeUpdate(Request $request, $id)
     {
-
+        if(Type::where('status','null')->where('name', $request->type)->first()){
+            $id = Type::where('status','null')->where('name', $request->type)->first();
+            Type::where('id', $id->id)->update([
+                'status' => 'active',
+            ]);
+            return redirect()->route('store');
+        }
+        
         $validated = $request->validate([
             'edit_type' => 'required|max:100|unique:types,name,'.$id.',id',
         ],

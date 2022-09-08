@@ -53,6 +53,7 @@ Route::prefix('store')->group(function () {
 Route::prefix('users')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users')->middleware('AdminMiddleware');
     Route::post('/', [App\Http\Controllers\UserController::class, 'index'])->name('users-post');
-    Route::post('/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin-update');
-    Route::post('/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('admin-delete');
+    Route::post('/admin-update/{id}', [App\Http\Controllers\UserController::class, 'adminUpdate'])->name('admin-update');
+    Route::post('/admin-delete/{id}', [App\Http\Controllers\UserController::class, 'adminDelete'])->name('admin-delete');
+    Route::post('/user-delete/{id}', [App\Http\Controllers\UserController::class, 'userDelete'])->name('user-delete');
 });

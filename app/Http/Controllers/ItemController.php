@@ -136,13 +136,13 @@ class ItemController extends Controller
         $user = \Auth::user();
         $validated = $request->validate([
             'name' => 'required|max:100',
-            'maker_id' => 'required',
+            'maker' => 'required',
             'detail' => 'max:250',
         ],
         [
             'name.required' => '商品名を入力してください',
             'name.max' => '商品名を100文字以内で入力してください',
-            'maker_id.required' => 'メーカーを選択してください',
+            'maker.required' => 'メーカーを選択してください',
             'detail.max' => '詳細を250文字以内で入力してください',
         ]);
         

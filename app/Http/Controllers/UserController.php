@@ -54,7 +54,7 @@ class UserController extends Controller
     /**
      * 権限付与
      */
-    public function update(Request $request, $id)
+    public function adminUpdate(Request $request, $id)
     {
         User::where('id', $id)->update([
             'admin_id' => 1,
@@ -65,11 +65,20 @@ class UserController extends Controller
     /**
      * 権限削除
      */
-    public function delete($id) 
+    public function adminDelete($id) 
     {
         User::where('id', $id)->update([
             'admin_id' => 0,
         ]);
+        return redirect()->route('users');
+    }
+
+    /**
+     * ユーザー削除
+     */
+    public function userDelete($id) 
+    {
+        User::where('id', $id)->delete();
         return redirect()->route('users');
     }
 
