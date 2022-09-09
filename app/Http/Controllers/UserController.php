@@ -78,6 +78,10 @@ class UserController extends Controller
      */
     public function userDelete($id) 
     {
+        if($id == Auth::id()){
+            User::where('id', $id)->delete();
+            return redirect('login');
+        }
         User::where('id', $id)->delete();
         return redirect()->route('users');
     }

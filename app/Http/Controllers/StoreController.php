@@ -20,8 +20,8 @@ class StoreController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
-
+    public function index(Request $request)
+    {
         // POSTリクエストのとき
         if ($request->isMethod('post')) {
             // バリデーション
@@ -186,6 +186,7 @@ class StoreController extends Controller
 
         return redirect()->route('store');
     }
+    
     /**
      * 種別削除
      */

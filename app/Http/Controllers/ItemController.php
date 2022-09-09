@@ -70,12 +70,11 @@ class ItemController extends Controller
         $query = Item::query();
         if($keyword){
             foreach($keywords as $value) {
-                $query->where('status', 'active')
-                        ->where(function($query) use ($value) {
-                            $query->orwhere('id',  'LIKE', $value)
-                                ->orWhere('name','LIKE',"%{$value}%")
-                                ->orWhere('detail','LIKE',"%{$value}%");
-                        });
+                $query->where(function($query) use ($value) {
+                    $query->orwhere('id',  'LIKE', $value)
+                        ->orWhere('name','LIKE',"%{$value}%")
+                        ->orWhere('detail','LIKE',"%{$value}%");
+                });
             }
         }
 
@@ -96,7 +95,8 @@ class ItemController extends Controller
         $makers = Maker::select('id AS maker_id', 'name AS maker_name');
         $types = Type::select('id AS type_id', 'name AS type_name');
         $count_item = $query->count();
-        $items = $query->leftjoinSub($users, 'users', function ($join) {
+        $items = $query->where('status', 'active')
+                        ->leftjoinSub($users, 'users', function ($join) {
                             $join->on('items.user_id', '=', 'users.user_id');
                             })
                         ->leftjoinSub($makers, 'makers', function ($join) {
