@@ -25,9 +25,9 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
-        if ($request->isMethod('post')) {
+        if ($request->list_items && $request->list_items == null) {
             // バリデーション
-            $this->validate($request, [
+            $validated = $request->validate([
                 'list_items' => 'required',
             ]);
         }

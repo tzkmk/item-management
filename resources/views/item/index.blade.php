@@ -14,7 +14,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header mb-2 earch-form text-center">
-                    <form class="input-group d-block" action="{{ route('item-post') }}" method="post">
+                    <form class="input-group d-block" action="{{ route('item-home') }}" method="get">
                         @csrf
                         <div class="d-flex m-2">
                             <div class="flex-fill d-block">

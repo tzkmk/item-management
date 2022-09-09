@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header mb-2 earch-form text-center">
-                    <form class="input-group d-flex justify-content-center" action="{{ route('users-post') }}" method="post">
+                    <form class="input-group d-flex justify-content-center" action="{{ route('users') }}" method="get">
                         @csrf
                         <!-- 絞り込み検索 -->
                         <div  class="d-block">

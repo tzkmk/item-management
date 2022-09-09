@@ -23,7 +23,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::prefix('items')->group(function () {
     Route::get('/', [App\Http\Controllers\ItemController::class, 'index'])->name('item-home');
-    Route::post('/', [App\Http\Controllers\ItemController::class, 'index'])->name('item-post');
     Route::get('/edit/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edit')->middleware('AdminMiddleware');
     Route::post('/update/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('update');
     Route::post('/delete/{id}', [App\Http\Controllers\ItemController::class, 'delete'])->name('delete');
@@ -52,7 +51,6 @@ Route::prefix('store')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('users')->middleware('AdminMiddleware');
-    Route::post('/', [App\Http\Controllers\UserController::class, 'index'])->name('users-post');
     Route::post('/admin-update/{id}', [App\Http\Controllers\UserController::class, 'adminUpdate'])->name('admin-update');
     Route::post('/admin-delete/{id}', [App\Http\Controllers\UserController::class, 'adminDelete'])->name('admin-delete');
     Route::post('/user-delete/{id}', [App\Http\Controllers\UserController::class, 'userDelete'])->name('user-delete');
