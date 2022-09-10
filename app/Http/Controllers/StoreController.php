@@ -95,10 +95,13 @@ class StoreController extends Controller
      */
     public function makerUpdate(Request $request, $id)
     {
-        if(Maker::where('status','null')->where('name', $request->maker)->first()){
-            $id = Maker::where('status','null')->where('name', $request->maker)->first();
-            Maker::where('id', $id->id)->update([
+        if(Maker::where('status','null')->where('name', $request->edit_maker)->first()){
+            $edit_id = Maker::where('status','null')->where('name', $request->edit_maker)->first();
+            Maker::where('id', $edit_id->id)->update([
                 'status' => 'active',
+            ]);
+            Maker::where('id', $id)->update([
+                'status' => 'null',
             ]);
             return redirect()->route('store');
         }
@@ -163,10 +166,13 @@ class StoreController extends Controller
      */
     public function typeUpdate(Request $request, $id)
     {
-        if(Type::where('status','null')->where('name', $request->type)->first()){
-            $id = Type::where('status','null')->where('name', $request->type)->first();
-            Type::where('id', $id->id)->update([
+        if(Type::where('status','null')->where('name', $request->edit_type)->first()){
+            $edit_id = Type::where('status','null')->where('name', $request->edit_type)->first();
+            Type::where('id', $edit_id->id)->update([
                 'status' => 'active',
+            ]);
+            Type::where('id', $id)->update([
+                'status' => 'null',
             ]);
             return redirect()->route('store');
         }

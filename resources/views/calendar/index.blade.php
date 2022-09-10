@@ -47,10 +47,10 @@
                             <tr>
                                 @foreach($week as $day)
                                     <td data-id="{{ $day }}" class="calendar-task">
-                                        <ul class="list-group ">
+                                        <div class="list-group">
                                             @foreach($items as $item)                                            
                                                 @if(isset($item) && $day == date('j', strtotime($item->release_at)))
-                                                    <li class="list-group-item list-group-item-action list-group-item-success"><a class="modal_open" data-bs-toggle="modal" data-bs-target="#js-modal-{{ $item->id }}">{{ $item->name }}</a></li>
+                                                    <button type="button" class="p-2 list-group-item list-group-item-action list-group-item-success modal_open"  data-bs-toggle="modal" data-bs-target="#js-modal-{{ $item->id }}">{{ $item->name }}</button>
                                                 @endif
                                                 <!-- モーダル表示内容 -->
                                                 <div class="modal fade" id="js-modal-{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -71,28 +71,28 @@
                                                                     <label for="name">名前</label>
                                                                     <input type="text" class="form-control" id="name"  value="{{ $item->name }}" readonly>
                                                                 </div>
-    
+
                                                                 <div class="form-group">
                                                                     <label for="maker">メーカー</label>
                                                                     <input type="text" class="form-control" id="maker" value="{{ $item->maker_name }}" readonly>
                                                                 </div>
-    
+
                                                                 <div class="form-group">
                                                                     <label for="type">種別</label>
                                                                     <input type="text" class="form-control" id="type" value="{{ $item->type_name }}" readonly>
                                                                 </div>
-    
+
                                                                 <div class="form-group">
                                                                     <label for="detail">詳細</label>
                                                                     <textarea class="form-control" id="detail" cols="30" rows="5"  readonly>{{ $item->detail }}</textarea>
                                                                 </div>
-    
+
                                                                 <div class="form-group">
                                                                     <label for="release_at">発売日</label>
                                                                     <input type="date" class="form-control" id="release_at" name="release_at"  value="{{ $item->release_at }}" readonly>
                                                                 </div>
-    
-    
+
+
                                                             </div>
                                                             <div class="modal-footer justify-content-center">
                                                                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-dismiss="modal">閉じる</button>
@@ -101,8 +101,8 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        </ul>
-                                        
+                                        </div>
+                                       
                                     </td>
                                 @endforeach
                             </tr>

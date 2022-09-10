@@ -43,8 +43,8 @@
                                         <option value="name" {{ $sort === "name"? 'selected' : '' }} {{ old('sort') === "name"? 'selected' : '' }}>商品名</option>
                                         <option value="maker_name" {{ $sort === "maker_name"? 'selected' : '' }} {{ old('sort') === "maker_name"? 'selected' : '' }} >メーカー</option>
                                         <option value="type_name" {{ $sort === "type_name"? 'selected' : '' }} {{ old('sort') === "type_name"? 'selected' : '' }}>種別</option>
-                                        <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }} {{ old('sort') === "release_at"? 'selected' : '' }}>発売日</option>
                                         <option value="updated_at" {{ $sort === "updated_at"? 'selected' : '' }} {{ old('sort') === "updated_at"? 'selected' : '' }}>更新日</option>
+                                        <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }} {{ old('sort') === "release_at"? 'selected' : '' }}>発売日</option>
                                     </select>
                                     <div class="ml-2 mt-1">
                                         <label class="mr-2" for="asc"><input id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }} {{ old('order') === "asc"? 'checked' : '' }}>昇順</label>

@@ -25,10 +25,13 @@ class ItemController extends Controller
      * 商品一覧を取得し、一覧画面を表示
      */
     public function index(Request $request){
-        if ($request->list_items && $request->list_items == null) {
+        if ( $request->sort && $request->list_items == null) {
             // バリデーション
             $validated = $request->validate([
                 'list_items' => 'required',
+            ],
+            [
+                'list_items.required' => '表示したい項目を選択してください',
             ]);
         }
 
