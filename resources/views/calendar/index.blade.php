@@ -68,7 +68,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="form-group">
-                                                                    <label for="name">名前</label>
+                                                                    <label for="name">商品名</label>
                                                                     <input type="text" class="form-control" id="name"  value="{{ $item->name }}" readonly>
                                                                 </div>
 
