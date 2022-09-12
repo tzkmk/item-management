@@ -16,8 +16,8 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">名前</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="名前" value="{{ old('name') }}">
+                            <label for="name">商品名</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="商品名" value="{{ old('name') }}">
                         </div>
                         @if ($errors->has('name'))
                             <div class="alert alert-danger">
