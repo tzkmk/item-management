@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="d-flex justify-content-between">
         <h1>発売日カレンダー</h1>
-        <input type="submit" value="このページを印刷する" onclick="window.print();">
+        <input type="submit" class="btn btn-sm btn-outline-secondary" value="このページを印刷する" onclick="window.print();">
     </div>  
 @stop
 

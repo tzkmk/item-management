@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between">
         <h1>商品一覧</h1>
-        <input type="submit" value="このページを印刷する" onclick="window.print();">
+        <input type="submit" class="btn btn-sm btn-outline-secondary" value="このページを印刷する" onclick="window.print();">
 </div>
 @stop
 
@@ -20,9 +20,9 @@
                             <div class="flex-fill d-block">
                                 <!-- 一覧表示項目 -->
                                 <p class="text-secondary mb-1">一覧表示項目</p>
-                                <div class="mb-2 ">
+                                <div class="mb-2 form-check form-check-inline">
                                     @foreach($lists as $list)
-                                    <label class="mr-2" for="{{ $list[0] }}"><input id="{{ $list[0] }}" type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}</label>
+                                    <label class="mr-2 form-check-label" for="{{ $list[0] }}"><input class="form-check-input" id="{{ $list[0] }}" type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}</label>
                                     @endforeach
                                 </div>
                                 @if ($errors->has('list_items'))
@@ -46,9 +46,9 @@
                                         <option value="updated_at" {{ $sort === "updated_at"? 'selected' : '' }} {{ old('sort') === "updated_at"? 'selected' : '' }}>更新日</option>
                                         <option value="release_at" {{ $sort === "release_at"? 'selected' : '' }} {{ old('sort') === "release_at"? 'selected' : '' }}>発売日</option>
                                     </select>
-                                    <div class="ml-2 mt-1">
-                                        <label class="mr-2" for="asc"><input id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }} {{ old('order') === "asc"? 'checked' : '' }}>昇順</label>
-                                        <label for="desc"><input id="desc" type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }} {{ old('order') === "desc"? 'checked' : '' }}>降順</label>
+                                    <div class="ml-2 mt-1 form-check form-check-inline">
+                                        <label class="mr-2 form-check-label" for="asc"><input class="form-check-input" id="asc" type="radio" name="order" value="asc" {{ $order === "asc"? 'checked' : '' }} {{ old('order') === "asc"? 'checked' : '' }}>昇順</label>
+                                        <label class="form-check-label" for="desc"><input class="form-check-input" id="desc" type="radio" name="order" value="desc" {{ $order === "desc"? 'checked' : '' }} {{ old('order') === "desc"? 'checked' : '' }}>降順</label>
                                     </div>                                  
                                 </div>
                             </div>
