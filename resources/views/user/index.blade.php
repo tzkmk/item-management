@@ -15,7 +15,7 @@
                         @csrf
                         <!-- 絞り込み検索 -->
                         <div  class="d-block">
-                            <label for="search-box">ユーザー検索</label>
+                            <label for="search-box" class="text-secondary">【ユーザー検索】</label>
                             <div id="search-box" class="mb-2 d-flex justify-content-center form-group">
                                 <!-- 管理者権限 -->
                                 <select class="mr-2 form-control" name="admin_id">

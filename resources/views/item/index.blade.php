@@ -16,11 +16,11 @@
                 <div class="card-header mb-2 earch-form text-center">
                     <form class="input-group d-block" action="{{ route('item-home') }}" method="get">
                         @csrf
-                        <div class="d-flex m-2">
-                            <div class="flex-fill d-block">
+                        <div class="d-flex m-2 row">
+                            <div class="flex-fill d-block col-md-6">
                                 <!-- 一覧表示項目 -->
-                                <p class="text-secondary mb-1">一覧表示項目</p>
-                                <div class="mb-2 form-check form-check-inline">
+                                <p class="text-secondary mb-1">【一覧表示項目】</p>
+                                <div class="d-block mb-2 form-check form-check-inline">
                                     @foreach($lists as $list)
                                     <label class="mr-2 form-check-label" for="{{ $list[0] }}"><input class="form-check-input" id="{{ $list[0] }}" type="checkbox" name="list_items[]" value="{{ $list[0] }}" {{ $list[2] === 'check'? 'checked' : '' }}>{{ $list[1] }}</label>
                                     @endforeach
@@ -36,7 +36,7 @@
                                 @endif
 
                                 <!-- 並べ替え -->
-                                <p class="text-secondary mb-1">並べ替え</p>
+                                <p class="text-secondary mb-1">【並べ替え】</p>
                                 <div class="mb-2 d-flex justify-content-center">
                                     <select name="sort" class="form-control form-control-sm w-25">
                                         <option value="id" {{ $sort === "id"? 'selected' : '' }} {{ old('sort') === "id"? 'selected' : '' }}>ID</option>
@@ -52,9 +52,9 @@
                                     </div>                                  
                                 </div>
                             </div>
-                            <div class="flex-fill d-block">
+                            <div class="flex-fill d-block col-md-6">
                                 <!-- 絞り込み検索 -->
-                                <p class="text-secondary">検索欄</p>
+                                <p class="text-secondary">【検索欄】</p>
                                 <div class="d-block">
                                     <!-- メーカー -->
                                     <div class="mb-2 d-flex justify-content-center form-group">
@@ -82,7 +82,6 @@
                     </form>
                 </div>
 
-                <!-- 商品検索 -->
                 <div class="main text-center">
                     @if(!empty($keyword) || !empty($maker_id) || !empty($type_id))
                     <p class="text-left ml-2">検索一致商品数 : 全 {{ $all_item }} 件中 {{ $count_item }} 件</p>
